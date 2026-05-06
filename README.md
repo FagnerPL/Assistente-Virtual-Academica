@@ -60,18 +60,20 @@ venv\Scripts\activate
 ### 4. Instale as dependências
 
 ```bash
-pip install flask flask-cors google-genai
+pip install flask flask-cors google-genai python-dotenv
 ```
 
 ### 5. Configure a API Key
 
 Obtenha sua chave gratuita em: [aistudio.google.com](https://aistudio.google.com)
 
-Abra o arquivo `app.py` e substitua `SUA_CHAVE_AQUI` pela sua chave:
+Crie um arquivo `.env` na raiz do projeto:
 
-```python
-client = genai.Client(api_key="SUA_CHAVE_AQUI")
+```bash
+echo "GEMINI_API_KEY=SUA_CHAVE_AQUI" > .env
 ```
+
+> ⚠️ Substitua `SUA_CHAVE_AQUI` pela sua chave real do Gemini.
 
 ---
 
@@ -119,6 +121,7 @@ projeto/
 ├── index.html      # Interface do chat (frontend)
 ├── script.js       # Lógica do chat e chamadas à API
 ├── styles.css      # Estilização da interface
+├── .env            # Variáveis de ambiente (não vai ao GitHub)
 ├── .gitignore      # Arquivos ignorados pelo Git
 └── README.md       # Este arquivo
 ```
@@ -128,6 +131,7 @@ projeto/
 ## ⚠️ Observações importantes
 
 - A pasta `venv/` **não está no repositório** — você precisa criá-la localmente seguindo os passos acima
+- O arquivo `.env` **não está no repositório** — você precisa criá-lo com sua chave
 - A **API Key não deve ser compartilhada** publicamente
 - O servidor Flask precisa estar rodando para o chat funcionar
 - Este projeto usa o plano **gratuito** do Google Gemini (1500 requisições/dia)
@@ -140,4 +144,8 @@ projeto/
 2. Faça login com sua conta Google
 3. Clique em **"Get API Key"**
 4. Clique em **"Create API Key"**
-5. Copie a chave gerada e cole no `app.py`
+5. Copie a chave gerada
+6. Crie o arquivo `.env` na pasta do projeto com o conteúdo:
+```
+GEMINI_API_KEY=SUA_CHAVE_AQUI
+```
