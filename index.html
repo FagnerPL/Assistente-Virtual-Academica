@@ -1,141 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-
+  <title>Assistente Virtual - Secretaria Fatec</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
   <div class="chat-shell">
 
-  <!-- HEADER com persona Sofia -->
-  <div class="header">
-    <div class="avatar-wrap">
-      <div class="avatar-ring">
-        <div class="avatar-face">
-          <svg viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-            <circle cx="22" cy="16" r="9" fill="#0C447C" opacity="0.6"/>
-            <circle cx="22" cy="16" r="7" fill="#B5D4F4"/>
-            <circle cx="19" cy="15" r="1.5" fill="#0C447C"/>
-            <circle cx="25" cy="15" r="1.5" fill="#0C447C"/>
-            <path d="M19 19 Q22 21 25 19" stroke="#0C447C" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-            <ellipse cx="22" cy="33" rx="11" ry="8" fill="#9FE1CB" opacity="0.7"/>
-            <ellipse cx="22" cy="31" rx="8" ry="6" fill="#5DCAA5" opacity="0.6"/>
-          </svg>
+    <!-- HEADER -->
+    <div class="header">
+      <div class="avatar-wrap">
+        <div class="avatar-ring">
+          <div class="avatar-face">
+            <img src="galvao_foto.png" alt="Prof. Galvão">
+          </div>
+        </div>
+        <div class="status-dot" id="statusDot"></div>
+      </div>
+      <div class="header-info">
+        <h2>Prof. Galvão</h2>
+        <p id="statusText">Assistente Virtual · Secretaria Acadêmica · Fatec</p>
+      </div>
+      <div class="badge-ia">IA Generativa</div>
+    </div>
+
+    <!-- TOGGLE MODO -->
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="btnChat" onclick="setMode('chat')">
+        💬 Chat
+      </button>
+      <button class="mode-btn" id="btnAvatar" onclick="setMode('avatar')">
+        🎬 Falar com Galvão
+      </button>
+    </div>
+
+    <!-- TABS (apenas no modo chat) -->
+    <div class="persona-tab" id="chatTabs">
+      <button class="tab-btn active" onclick="switchTab('chat')">Atendimento</button>
+      <button class="tab-btn" onclick="switchTab('persona')">Sobre Galvão</button>
+      <button class="tab-btn" onclick="switchTab('servicos')">Serviços</button>
+    </div>
+
+    <!-- ===================== -->
+    <!-- MODO CHAT             -->
+    <!-- ===================== -->
+    <div id="modeChat" class="mode-content active">
+
+      <!-- TAB: CHAT -->
+      <div class="tab-content active" id="tab-chat">
+        <div class="services-bar">
+          <div class="svc-chip" onclick="quickAsk('Quero transferir meu horário de aula')"><span class="chip-dot" style="background:#185FA5"></span>Transferência de Horário</div>
+          <div class="svc-chip" onclick="quickAsk('Quero solicitar trancamento de matrícula')"><span class="chip-dot" style="background:#D85A30"></span>Trancamento</div>
+          <div class="svc-chip" onclick="quickAsk('Preciso de uma declaração acadêmica')"><span class="chip-dot" style="background:#1D9E75"></span>Declaração</div>
+          <div class="svc-chip" onclick="quickAsk('Quais são as datas do calendário acadêmico?')"><span class="chip-dot" style="background:#BA7517"></span>Calendário</div>
+          <div class="svc-chip" onclick="quickAsk('Como funciona o estágio obrigatório?')"><span class="chip-dot" style="background:#534AB7"></span>Estágio</div>
+          <div class="svc-chip" onclick="quickAsk('Informações sobre disciplinas e professores')"><span class="chip-dot" style="background:#993C1D"></span>Disciplinas</div>
+        </div>
+
+        <div class="messages" id="msgBox">
+          <div class="msg-row sofia">
+            <div class="msg-avatar sofia">
+              <img src="galvao_foto.png" alt="G" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
+            </div>
+            <div class="bubble sofia">
+              <div class="bubble-name">Prof. Galvão · Secretaria Fatec</div>
+              Olá! Sou o <strong>Professor Galvão</strong>, seu assistente virtual da Secretaria Acadêmica da Fatec. Estou aqui para te ajudar!
+              <div class="options-grid">
+                <button class="opt-btn" onclick="quickAsk('Quero transferir meu horário de aula')"><span>🔄</span> Trocar horário</button>
+                <button class="opt-btn" onclick="quickAsk('Quero solicitar trancamento de matrícula')"><span>⏸</span> Trancamento</button>
+                <button class="opt-btn" onclick="quickAsk('Preciso de uma declaração acadêmica')"><span>📄</span> Declaração</button>
+                <button class="opt-btn" onclick="quickAsk('Quais são as datas do calendário acadêmico?')"><span>📅</span> Calendário</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-hint">Prof. Galvão responde com IA · Secretaria Fatec 24h</div>
+
+        <div class="input-area">
+          <button class="attach-btn" title="Anexar documento">📎</button>
+          <input class="text-input" id="userInput" type="text" placeholder="Digite sua mensagem..." onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="send-btn" onclick="sendMsg()">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
+          </button>
         </div>
       </div>
-      <div class="status-dot"></div>
-    </div>
-    <div class="header-info">
-      <h2>Sofia</h2>
-      <p>Assistente Virtual · Secretaria Acadêmica</p>
-    </div>
-    <div class="badge-ia">IA Generativa</div>
-  </div>
 
-  <!-- TABS -->
-  <div class="persona-tab">
-    <button class="tab-btn active" onclick="switchTab('chat')">Atendimento</button>
-    <button class="tab-btn" onclick="switchTab('persona')">Sobre a Sofia</button>
-    <button class="tab-btn" onclick="switchTab('servicos')">Serviços</button>
-  </div>
-
-  <!-- TAB: CHAT -->
-  <div class="tab-content active" id="tab-chat">
-    <!-- Chips de serviços -->
-    <div class="services-bar">
-      <div class="svc-chip" onclick="quickAsk('Quero transferir meu horário de aula')"><span class="chip-dot" style="background:#185FA5"></span>Transferência de Horário</div>
-      <div class="svc-chip" onclick="quickAsk('Quero solicitar trancamento de matrícula')"><span class="chip-dot" style="background:#D85A30"></span>Trancamento</div>
-      <div class="svc-chip" onclick="quickAsk('Preciso de uma declaração acadêmica')"><span class="chip-dot" style="background:#1D9E75"></span>Declaração</div>
-      <div class="svc-chip" onclick="quickAsk('Quais são as datas do calendário acadêmico?')"><span class="chip-dot" style="background:#BA7517"></span>Calendário</div>
-      <div class="svc-chip" onclick="quickAsk('Como funciona o estágio obrigatório?')"><span class="chip-dot" style="background:#534AB7"></span>Estágio</div>
-      <div class="svc-chip" onclick="quickAsk('Informações sobre disciplinas e professores')"><span class="chip-dot" style="background:#993C1D"></span>Disciplinas</div>
-    </div>
-
-    <!-- Mensagens -->
-    <div class="messages" id="msgBox">
-      <!-- Welcome -->
-      <div class="msg-row sofia">
-        <div class="msg-avatar sofia">
-          <svg viewBox="0 0 30 30" width="22" height="22"><circle cx="15" cy="11" r="6" fill="#0C447C" opacity="0.5"/><circle cx="15" cy="11" r="4.5" fill="#B5D4F4"/><circle cx="13" cy="10.5" r="1" fill="#0C447C"/><circle cx="17" cy="10.5" r="1" fill="#0C447C"/><path d="M13 13 Q15 14.5 17 13" stroke="#0C447C" stroke-width="1" fill="none" stroke-linecap="round"/><ellipse cx="15" cy="22" rx="7" ry="5" fill="#9FE1CB" opacity="0.7"/></svg>
+      <!-- TAB: PERSONA -->
+      <div class="tab-content" id="tab-persona" style="overflow-y:auto;padding:20px;gap:16px;">
+        <div style="text-align:center;padding:20px 0 12px;">
+          <div style="width:100px;height:100px;border-radius:50%;overflow:hidden;margin:0 auto 12px;border:4px solid #E6F1FB;">
+            <img src="galvao_foto.png" alt="Prof. Galvão" style="width:100%;height:100%;object-fit:cover;object-position:center top;">
+          </div>
+          <div style="font-size:22px;color:var(--text);font-weight:600;">Prof. Galvão</div>
+          <div style="font-size:12px;color:var(--text-sec);margin-top:4px;">Assistente Virtual Inteligente · Fatec</div>
+          <div style="display:flex;justify-content:center;gap:8px;margin-top:10px;flex-wrap:wrap;">
+            <span style="background:var(--sofia-teal-light);color:var(--sofia-teal);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;">Disponível 24h</span>
+            <span style="background:var(--sofia-blue-light);color:var(--sofia-blue);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;">IA Generativa</span>
+            <span style="background:var(--sofia-purple-light);color:var(--sofia-purple);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;">Voz Sintetizada</span>
+          </div>
         </div>
-        <div class="bubble sofia">
-          <div class="bubble-name">Sofia · Secretaria Acadêmica</div>
-          Olá! Sou a <strong>Sofia</strong>, sua assistente virtual da Secretaria Acadêmica. Estou aqui para ajudar você com serviços como transferência de horário, trancamento de matrícula, declarações e muito mais.
-          <br><br>Como posso te ajudar hoje?
-          <div class="options-grid">
-            <button class="opt-btn" onclick="quickAsk('Quero transferir meu horário de aula')"><span>🔄</span> Trocar horário</button>
-            <button class="opt-btn" onclick="quickAsk('Quero solicitar trancamento de matrícula')"><span>⏸</span> Trancamento</button>
-            <button class="opt-btn" onclick="quickAsk('Preciso de uma declaração acadêmica')"><span>📄</span> Declaração</button>
-            <button class="opt-btn" onclick="quickAsk('Quais são as datas do calendário acadêmico?')"><span>📅</span> Calendário</button>
+        <div style="background:var(--bg-sec);border-radius:12px;border:0.5px solid var(--border);padding:16px;">
+          <div style="font-size:11px;font-weight:600;color:var(--sofia-blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Sobre o Prof. Galvão</div>
+          <p style="font-size:13.5px;color:var(--text-sec);line-height:1.65;">O Professor Galvão é a representação digital da Secretaria Acadêmica da Fatec — criado para ser <strong style="color:var(--text);">próximo, acolhedor e eficiente</strong>. Combina a expertise de um professor experiente com a agilidade da inteligência artificial generativa.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div style="background:var(--bg-sec);border-radius:8px;border:0.5px solid var(--border);padding:12px;">
+            <div style="font-size:11px;color:var(--sofia-teal);font-weight:600;margin-bottom:6px;">PERSONALIDADE</div>
+            <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">Acolhedor · Direto<br>Paciente · Resolutivo<br>Bem-humorado</div>
+          </div>
+          <div style="background:var(--bg-sec);border-radius:8px;border:0.5px solid var(--border);padding:12px;">
+            <div style="font-size:11px;color:var(--sofia-blue);font-weight:600;margin-bottom:6px;">CAPACIDADES</div>
+            <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">6 serviços acadêmicos<br>Atendimento 24/7<br>Voz em português</div>
+          </div>
+          <div style="background:var(--bg-sec);border-radius:8px;border:0.5px solid var(--border);padding:12px;">
+            <div style="font-size:11px;color:var(--sofia-purple);font-weight:600;margin-bottom:6px;">TOM DE VOZ</div>
+            <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">Professoral e caloroso<br>Claro e objetivo<br>Sempre respeitoso</div>
+          </div>
+          <div style="background:var(--bg-sec);border-radius:8px;border:0.5px solid var(--border);padding:12px;">
+            <div style="font-size:11px;color:var(--sofia-amber);font-weight:600;margin-bottom:6px;">MISSÃO</div>
+            <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">Simplificar a vida<br>acadêmica dos alunos<br>da Fatec com IA</div>
           </div>
         </div>
       </div>
+
+      <!-- TAB: SERVIÇOS -->
+      <div class="tab-content" id="tab-servicos" style="overflow-y:auto;padding:16px;gap:10px;">
+        <div id="svc-list"></div>
+      </div>
+
     </div>
 
-    <div class="input-hint">Sofia responde com IA Generativa · Atendimento 24h</div>
+    <!-- ===================== -->
+    <!-- MODO AVATAR           -->
+    <!-- ===================== -->
+    <div id="modeAvatar" class="mode-content">
 
-    <div class="input-area">
-      <button class="attach-btn" title="Anexar documento">📎</button>
-      <input class="text-input" id="userInput" type="text" placeholder="Digite sua mensagem..." onkeydown="if(event.key==='Enter')sendMsg()">
-      <button class="send-btn" onclick="sendMsg()">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M2 21L23 12 2 3v7l15 2-15 2z"/></svg>
-      </button>
+      <!-- PLAYER DE VÍDEO -->
+      <div class="avatar-video-section">
+        <div class="avatar-video-wrap">
+          <video id="galvaoVideo" playsinline>
+            <source src="videos/boas_vindas.mp4" type="video/mp4">
+          </video>
+          <div class="video-placeholder" id="videoPlaceholder">
+            <img src="galvao_foto.png" alt="Prof. Galvão">
+            <div class="play-hint">Selecione um serviço abaixo</div>
+          </div>
+        </div>
+        <div class="avatar-name-badge">
+          <span class="avatar-name-text">Prof. Galvão</span>
+          <span class="avatar-name-sub">Secretaria Acadêmica · Fatec</span>
+        </div>
+      </div>
+
+      <!-- BOTÕES DE SERVIÇO -->
+      <div class="avatar-services">
+        <div class="avatar-svc-title">Selecione um serviço:</div>
+        <div class="avatar-svc-grid">
+          <button class="avatar-svc-btn" onclick="playVideo('boas_vindas', this)">👋 Apresentação</button>
+          <button class="avatar-svc-btn" onclick="playVideo('horario', this)">🔄 Transferência de Horário</button>
+          <button class="avatar-svc-btn" onclick="playVideo('trancamento', this)">⏸ Trancamento</button>
+          <button class="avatar-svc-btn" onclick="playVideo('declaracao', this)">📄 Declaração</button>
+          <button class="avatar-svc-btn" onclick="playVideo('calendario', this)">📅 Calendário</button>
+          <button class="avatar-svc-btn" onclick="playVideo('estagio', this)">🏢 Estágio</button>
+          <button class="avatar-svc-btn" onclick="playVideo('disciplinas', this)">📚 Disciplinas</button>
+        </div>
+      </div>
+
+      <!-- LINK PARA O CHAT -->
+      <div class="avatar-chat-link">
+        Tem dúvidas específicas?
+        <button onclick="setMode('chat')" class="link-btn">💬 Falar no chat</button>
+      </div>
+
     </div>
-  </div>
-
-  <!-- TAB: PERSONA -->
-  <div class="tab-content" id="tab-persona" style="overflow-y:auto; padding:20px; gap:16px;">
-    <div style="text-align:center; padding:20px 0 12px;">
-      <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(145deg,#B5D4F4,#9FE1CB);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;border:3px solid #B5D4F4;">
-        <svg viewBox="0 0 80 80" width="60" height="60"><circle cx="40" cy="28" r="16" fill="#0C447C" opacity="0.4"/><circle cx="40" cy="28" r="13" fill="#B5D4F4"/><circle cx="35" cy="26" r="2.5" fill="#0C447C"/><circle cx="45" cy="26" r="2.5" fill="#0C447C"/><path d="M35 33 Q40 37 45 33" stroke="#0C447C" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="40" cy="60" rx="20" ry="14" fill="#9FE1CB" opacity="0.6"/><ellipse cx="40" cy="57" rx="15" ry="10" fill="#5DCAA5" opacity="0.5"/></svg>
-      </div>
-      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--text);font-weight:400;">Sofia</div>
-      <div style="font-size:12px;color:var(--text-sec);margin-top:4px;">Assistente Virtual Inteligente</div>
-      <div style="display:flex;justify-content:center;gap:8px;margin-top:10px;">
-        <span style="background:var(--sofia-teal-light);color:var(--sofia-teal);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;">Disponível 24h</span>
-        <span style="background:var(--sofia-blue-light);color:var(--sofia-blue);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;">IA Generativa</span>
-        <span style="background:var(--sofia-purple-light);color:var(--sofia-purple);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;">Empática</span>
-      </div>
-    </div>
-
-    <div style="background:var(--bg-sec);border-radius:var(--border-radius-lg);border:0.5px solid var(--border);padding:16px;">
-      <div style="font-size:11px;font-weight:600;color:var(--sofia-blue);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">Sobre a Sofia</div>
-      <p style="font-size:13.5px;color:var(--text-sec);line-height:1.65;">Sofia é a representação digital da Secretaria Acadêmica — criada para ser <strong style="color:var(--text);">acessível, eficiente e humana</strong>. Com personalidade acolhedora e profissional, ela combina a precisão da inteligência artificial com a sensibilidade necessária para lidar com as demandas dos estudantes.</p>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-      <div style="background:var(--bg-sec);border-radius:var(--border-radius-md);border:0.5px solid var(--border);padding:12px;">
-        <div style="font-size:11px;color:var(--sofia-teal);font-weight:600;margin-bottom:6px;">PERSONALIDADE</div>
-        <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">Empática · Proativa<br>Clara · Confiável<br>Paciente · Resolutiva</div>
-      </div>
-      <div style="background:var(--bg-sec);border-radius:var(--border-radius-md);border:0.5px solid var(--border);padding:12px;">
-        <div style="font-size:11px;color:var(--sofia-blue);font-weight:600;margin-bottom:6px;">CAPACIDADES</div>
-        <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">6 serviços acadêmicos<br>Atendimento 24/7<br>Português fluente</div>
-      </div>
-      <div style="background:var(--bg-sec);border-radius:var(--border-radius-md);border:0.5px solid var(--border);padding:12px;">
-        <div style="font-size:11px;color:var(--sofia-purple);font-weight:600;margin-bottom:6px;">TOM DE VOZ</div>
-        <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">Formal mas caloroso<br>Direto e objetivo<br>Sempre respeitoso</div>
-      </div>
-      <div style="background:var(--bg-sec);border-radius:var(--border-radius-md);border:0.5px solid var(--border);padding:12px;">
-        <div style="font-size:11px;color:var(--sofia-amber);font-weight:600;margin-bottom:6px;">MISSÃO</div>
-        <div style="font-size:12.5px;color:var(--text-sec);line-height:1.6;">Simplificar a vida<br>acadêmica dos alunos<br>com tecnologia</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TAB: SERVIÇOS -->
-  <div class="tab-content" id="tab-servicos" style="overflow-y:auto;padding:16px;gap:10px;">
-    <div id="svc-list"></div>
-  </div>
 
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
-
-

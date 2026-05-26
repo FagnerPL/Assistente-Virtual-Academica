@@ -7,10 +7,28 @@ const SERVICES = [
   { id: 'disciplinas', icon: '📚', color: '#993C1D', lightColor: '#FAECE7', title: 'Disciplinas e Professores', desc: 'Consulte grades curriculares, ementas, professores responsáveis e salas de aula.', steps: ['Acesse o Portal do Aluno', 'Consulte a grade do curso', 'Veja horários por professor', 'Ementa disponível no sistema'] }
 ];
 
+const systemPrompt = `Você é o Professor Galvão, assistente virtual inteligente e empático da Secretaria Acadêmica da Fatec.
+
+PERSONALIDADE: Você é caloroso, profissional, direto e sempre resolutivo. Use linguagem formal mas acessível. Seja empático com as dificuldades dos estudantes.
+
+SERVIÇOS QUE VOCÊ OFERECE:
+1. Transferência de horário de aula: Período nas 2 primeiras semanas do semestre, via Portal Acadêmico.
+2. Trancamento de matrícula: Disponível até o 60º dia do semestre. Documentos: formulário + justificativa. Máximo 2 trancamentos na graduação.
+3. Declaração acadêmica: Tipos: matrícula ativa, histórico, frequência, conclusão. Prazo 5 dias úteis.
+4. Calendário acadêmico 2025: 1º sem (Fev-Jun): Início 10/02, Matrículas 27-31/01, Provas Finais 09-20/06. 2º sem (Ago-Dez): Início 04/08, Matrículas 21-25/07, Provas Finais 24/11-05/12.
+5. Estágio obrigatório: Carga horária varia por curso (200h a 400h). Documentos: TCE, plano de atividades, relatórios bimestrais.
+6. Disciplinas e professores: Consultar no Portal do Aluno. Grade curricular disponível online.
+
+INSTRUÇÕES:
+- Responda em português brasileiro
+- Seja conciso mas completo
+- Se não souber algo, oriente contatar: secretaria@fatec.edu.br ou (11) 3333-4444
+- Não invente informações`;
+
 function renderServices() {
   const el = document.getElementById('svc-list');
   el.innerHTML = SERVICES.map(s => `
-    <div style="background:var(--bg-sec);border-radius:var(--border-radius-lg);border:0.5px solid var(--border);padding:14px;margin-bottom:10px;">
+    <div style="background:var(--bg-sec);border-radius:12px;border:0.5px solid var(--border);padding:14px;margin-bottom:10px;">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
         <div style="width:38px;height:38px;border-radius:8px;background:${s.lightColor};display:flex;align-items:center;justify-content:center;font-size:18px;">${s.icon}</div>
         <div>
@@ -44,58 +62,56 @@ function quickAsk(text) {
   sendMsg();
 }
 
+function setAvatarSpeaking(speaking) {
+  const frame = document.getElementById('avatarFrame');
+  const bars = document.getElementById('audioBars');
+  const dot = document.getElementById('statusDot');
+  const status = document.getElementById('statusText');
+
+  if (speaking) {
+    frame.classList.add('speaking');
+    bars.classList.add('active');
+    dot.classList.add('active');
+    status.textContent = 'Falando...';
+  } else {
+    frame.classList.remove('speaking');
+    bars.classList.remove('active');
+    dot.classList.remove('active');
+    status.textContent = 'Assistente Virtual · Secretaria Acadêmica · Fatec';
+  }
+}
+
 async function sendMsg() {
   const input = document.getElementById('userInput');
   const text = input.value.trim();
   if (!text) return;
   input.value = '';
-  
+
   addUserMsg(text);
   const typingId = addTyping();
-  
+
   try {
-    const systemPrompt = `Você é Sofia, a assistente virtual inteligente e empática da Secretaria Acadêmica de uma universidade brasileira.
-
-PERSONALIDADE: Você é calorosa, profissional, direta e sempre resolutiva. Use linguagem formal mas acessível. Evite jargões desnecessários. Seja empática com as dificuldades dos estudantes.
-
-SERVIÇOS QUE VOCÊ OFERECE:
-1. Transferência de horário de aula: Período nas 2 primeiras semanas do semestre, via Portal Acadêmico. Aluno deve verificar vagas disponíveis.
-2. Trancamento de matrícula: Disponível até o 60º dia do semestre. Documentos: formulário + justificativa. Máximo 2 trancamentos na graduação.
-3. Declaração acadêmica: Tipos: matrícula ativa, histórico, frequência, conclusão. Prazo 5 dias úteis. Pode ser digital (PDF assinado) ou física.
-4. Calendário acadêmico 2025: 1º sem (Fev-Jun): Início 10/02, Matrículas 27-31/01, Provas Finais 09-20/06. 2º sem (Ago-Dez): Início 04/08, Matrículas 21-25/07, Provas Finais 24/11-05/12. Recesso: Julho e Janeiro.
-5. Estágio obrigatório: Carga horária varia por curso (200h a 400h). Empresa deve ter convênio ativo. Documentos: TCE (Termo de Compromisso de Estágio), plano de atividades, relatórios bimestrais. Supervisão por professor orientador.
-6. Disciplinas e professores: Consultar no Portal do Aluno. Grade curricular disponível online. Ementas na Biblioteca Virtual.
-
-INSTRUÇÕES:
-- Responda em português brasileiro
-- Seja concisa mas completa
-- Quando pertinente, mencione prazos, documentos necessários e próximos passos
-- Se não souber algo específico, oriente o aluno a contatar a secretaria diretamente pelo email secretaria@universidade.edu.br ou telefone (11) 3333-4444
-- Não invente informações
-- Finalize com "Posso ajudar com mais alguma coisa?" quando apropriado`;
-
     const resp = await fetch('http://localhost:5000/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: text,
-        system: systemPrompt
-      })
+      body: JSON.stringify({ message: text, system: systemPrompt })
     });
 
     const data = await resp.json();
     removeTyping(typingId);
 
     const reply = data.text || 'Desculpe, não consegui processar sua solicitação.';
-    addSofiaMsg(reply);
+    addGalvaoMsg(reply);
+
   } catch(e) {
     removeTyping(typingId);
     console.error('Erro:', e);
-    addSofiaMsg('Desculpe, ocorreu um erro de conexão. Tente novamente ou entre em contato pelo e-mail secretaria@universidade.edu.br.');
+    addGalvaoMsg('Desculpe, ocorreu um erro de conexão. Tente novamente ou entre em contato pelo e-mail secretaria@fatec.edu.br.');
   }
 }
 
 let typingCounter = 0;
+
 function addTyping() {
   const id = 'typing-' + (++typingCounter);
   const box = document.getElementById('msgBox');
@@ -104,7 +120,7 @@ function addTyping() {
   row.id = id;
   row.innerHTML = `
     <div class="msg-avatar sofia">
-      <svg viewBox="0 0 30 30" width="22" height="22"><circle cx="15" cy="11" r="6" fill="#0C447C" opacity="0.5"/><circle cx="15" cy="11" r="4.5" fill="#B5D4F4"/><circle cx="13" cy="10.5" r="1" fill="#0C447C"/><circle cx="17" cy="10.5" r="1" fill="#0C447C"/><path d="M13 13 Q15 14.5 17 13" stroke="#0C447C" stroke-width="1" fill="none" stroke-linecap="round"/><ellipse cx="15" cy="22" rx="7" ry="5" fill="#9FE1CB" opacity="0.7"/></svg>
+      <img src="galvao_foto.png" alt="G" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
     </div>
     <div class="bubble sofia"><div class="typing-indicator"><span></span><span></span><span></span></div></div>
   `;
@@ -130,16 +146,16 @@ function addUserMsg(text) {
   box.scrollTop = box.scrollHeight;
 }
 
-function addSofiaMsg(text) {
+function addGalvaoMsg(text) {
   const box = document.getElementById('msgBox');
   const row = document.createElement('div');
   row.className = 'msg-row sofia';
   row.innerHTML = `
     <div class="msg-avatar sofia">
-      <svg viewBox="0 0 30 30" width="22" height="22"><circle cx="15" cy="11" r="6" fill="#0C447C" opacity="0.5"/><circle cx="15" cy="11" r="4.5" fill="#B5D4F4"/><circle cx="13" cy="10.5" r="1" fill="#0C447C"/><circle cx="17" cy="10.5" r="1" fill="#0C447C"/><path d="M13 13 Q15 14.5 17 13" stroke="#0C447C" stroke-width="1" fill="none" stroke-linecap="round"/><ellipse cx="15" cy="22" rx="7" ry="5" fill="#9FE1CB" opacity="0.7"/></svg>
+      <img src="galvao_foto.png" alt="G" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">
     </div>
     <div class="bubble sofia">
-      <div class="bubble-name">Sofia · Secretaria Acadêmica</div>
+      <div class="bubble-name">Prof. Galvão · Secretaria Fatec</div>
       ${formatMsg(text)}
     </div>
   `;
@@ -159,3 +175,37 @@ function formatMsg(text) {
 }
 
 renderServices();
+
+function setMode(mode) {
+  document.getElementById('modeChat').classList.toggle('active', mode === 'chat');
+  document.getElementById('modeAvatar').classList.toggle('active', mode === 'avatar');
+  document.getElementById('chatTabs').style.display = mode === 'chat' ? 'flex' : 'none';
+  document.getElementById('btnChat').classList.toggle('active', mode === 'chat');
+  document.getElementById('btnAvatar').classList.toggle('active', mode === 'avatar');
+}
+
+function playVideo(service, btn) {
+  const video = document.getElementById('galvaoVideo');
+  const placeholder = document.getElementById('videoPlaceholder');
+
+  // Marca botão ativo
+  document.querySelectorAll('.avatar-svc-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  // Troca o vídeo
+  video.src = `videos/${service}.mp4`;
+  video.classList.add('active');
+  placeholder.style.display = 'none';
+
+  video.load();
+  video.play().catch(() => {
+    // Vídeo não encontrado ainda
+    video.classList.remove('active');
+    placeholder.style.display = 'flex';
+    placeholder.querySelector('.play-hint').textContent = '⚠️ Vídeo em produção...';
+  });
+
+  video.onended = () => {
+    btn.classList.remove('active');
+  };
+}
