@@ -15,7 +15,7 @@ SERVIÇOS QUE VOCÊ OFERECE:
 1. Transferência de horário de aula: Período nas 2 primeiras semanas do semestre, via Portal Acadêmico.
 2. Trancamento de matrícula: Disponível até o 60º dia do semestre. Documentos: formulário + justificativa. Máximo 2 trancamentos na graduação.
 3. Declaração acadêmica: Tipos: matrícula ativa, histórico, frequência, conclusão. Prazo 5 dias úteis.
-4. Calendário acadêmico 2025: 1º sem (Fev-Jun): Início 10/02, Matrículas 27-31/01, Provas Finais 09-20/06. 2º sem (Ago-Dez): Início 04/08, Matrículas 21-25/07, Provas Finais 24/11-05/12.
+4. Calendário acadêmico 2026.
 5. Estágio obrigatório: Carga horária varia por curso (200h a 400h). Documentos: TCE, plano de atividades, relatórios bimestrais.
 6. Disciplinas e professores: Consultar no Portal do Aluno. Grade curricular disponível online.
 
@@ -23,7 +23,8 @@ INSTRUÇÕES:
 - Responda em português brasileiro
 - Seja conciso mas completo
 - Se não souber algo, oriente contatar: secretaria@fatec.edu.br ou (11) 3333-4444
-- Não invente informações`;
+- Não invente informações
+- IMPORTANTE: Não se apresente novamente a cada mensagem. A apresentação já foi feita. Vá direto ao ponto respondendo a dúvida do aluno`;
 
 function renderServices() {
   const el = document.getElementById('svc-list');

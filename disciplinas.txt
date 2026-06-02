@@ -1,0 +1,52 @@
+GRADE CURRICULAR - ADS (Análise e Desenvolvimento de Sistemas)
+FATEC ZONA SUL - 2º SEMESTRE / 2º PERÍODO
+
+=== DISCIPLINAS DO 2º SEMESTRE ===
+
+| Sigla   | Disciplina                  |
+|---------|-----------------------------|
+| IES-100 | Engenharia de Software I    |
+| ILP-010 | Linguagem de Programação    |
+| ISI-002 | Sistemas de Informação      |
+| CCG-001 | Contabilidade               |
+| MCA-002 | Cálculo                     |
+| LPO-001 | Comunicação e Expressão     |
+| LIN-200 | Inglês II                   |
+
+=== HORÁRIOS E DOCENTES ===
+
+SEGUNDA-FEIRA:
+- 1ª aula (19h00-19h50): CCG-001 - Contabilidade | Prof. Bonetti | Sala 3
+- 2ª aula (19h50-20h40): CCG-001 - Contabilidade | Prof. Bonetti | Sala 3
+
+TERÇA-FEIRA:
+- 1ª aula (19h00-19h50): IES-100 - Engenharia de Software I | Prof. Josenyr | Lab.02
+- 2ª aula (19h50-20h40): IES-100 - Engenharia de Software I | Prof. Josenyr | Lab.02
+- 3ª aula (20h50-21h40): IES-100 - Engenharia de Software I | Prof. Josenyr | Lab.02
+- 4ª aula (21h40-22h30): IES-100 - Engenharia de Software I | Prof. Josenyr | Lab.02
+
+QUARTA-FEIRA:
+- 1ª aula (19h00-19h50): LPO-001 - Comunicação e Expressão | Prof. Admarcio | Sala 3
+- 2ª aula (19h50-20h40): LPO-001 - Comunicação e Expressão | Prof. Admarcio | Sala 3
+- 3ª aula (20h50-21h40): LPO-001 - Comunicação e Expressão | Prof. Admarcio | Sala 3
+- 4ª aula (21h40-22h30): LPO-001 - Comunicação e Expressão | Prof. Admarcio | Sala 3
+
+QUINTA-FEIRA:
+- 1ª aula (19h00-19h50): ILP-010 - Linguagem de Programação | Prof. Daniel | Lab.04
+- 2ª aula (19h50-20h40): ILP-010 - Linguagem de Programação | Prof. Daniel | Lab.04
+- 3ª aula (20h50-21h40): ILP-010 - Linguagem de Programação | Prof. Daniel | Lab.04
+- 4ª aula (21h40-22h30): ILP-010 - Linguagem de Programação | Prof. Daniel | Lab.04
+
+SEXTA-FEIRA:
+- 1ª aula (19h00-19h50): MCA-002 - Cálculo | Prof. Ricardo | Sala 3
+- 2ª aula (19h50-20h40): MCA-002 - Cálculo | Prof. Ricardo | Sala 3
+- 3ª aula (20h50-21h40): MCA-002 - Cálculo | Prof. Ricardo | Sala 3
+- 4ª aula (21h40-22h30): MCA-002 - Cálculo | Prof. Ricardo | Sala 3
+
+SÁBADO:
+- 1ª aula (07h00-07h50): ISI-002 - Sistemas de Informação | Prof. Marchiori | Lab.02
+- 2ª aula (07h50-08h40): ISI-002 - Sistemas de Informação | Prof. Marchiori | Lab.02
+- 3ª aula (08h40-09h30): ISI-002 - Sistemas de Informação | Prof. Marchiori | Lab.02
+- 4ª aula (09h30-10h20): ISI-002 - Sistemas de Informação | Prof. Marchiori | Lab.02
+- 5ª aula (10h30-11h20): LIN-200 - Inglês II | Prof. Cristiane | Sala 3
+- 6ª aula (11h20-12h10): LIN-200 - Inglês II | Prof. Cristiane | Sala 3

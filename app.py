@@ -13,6 +13,24 @@ CORS(app, origins="*")
 
 gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
+def carregar_calendario():
+    try:
+        with open('calendario.txt', 'r', encoding='utf-8') as f:
+            return f.read()
+    except FileNotFoundError:
+        return "Calendário acadêmico não disponível no momento."
+
+CALENDARIO = carregar_calendario()
+
+def carregar_disciplinas():
+    try:
+        with open('disciplinas.txt', 'r', encoding='utf-8') as f:
+            return f.read()
+    except FileNotFoundError:
+        return "Grade de disciplinas não disponível no momento."
+
+DISCIPLINAS = carregar_disciplinas()
+
 @app.route('/chat', methods=['POST', 'OPTIONS'])
 def chat():
     if request.method == 'OPTIONS':
@@ -24,7 +42,7 @@ def chat():
         system_prompt = data.get('system')
 
         # Gera resposta com Gemini
-        prompt = f"{system_prompt}\n\nAluno: {message}"
+        prompt = f"{system_prompt}\n\nCALENDÁRIO ACADÊMICO OFICIAL 2026:\n{CALENDARIO}\n\nGRADE DE DISCIPLINAS E HORÁRIOS:\n{DISCIPLINAS}\n\nAluno: {message}"
         response = gemini_client.models.generate_content(
             model="gemini-3-flash-preview",
             contents=prompt
