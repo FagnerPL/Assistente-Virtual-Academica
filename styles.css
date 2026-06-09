@@ -646,3 +646,31 @@ transition: all 0.15s;
   background: var(--sofia-blue);
   color: #fff;
 }
+
+/* DOWNLOAD BUTTONS */
+.download-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 0.5px solid var(--sofia-blue-mid);
+  background: var(--sofia-blue-light);
+  color: var(--sofia-blue);
+  font-size: 12.5px;
+  text-decoration: none;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.download-btn:hover {
+  background: var(--sofia-blue);
+  color: #fff;
+}

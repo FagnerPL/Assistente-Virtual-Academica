@@ -44,7 +44,7 @@ def chat():
         # Gera resposta com Gemini
         prompt = f"{system_prompt}\n\nCALENDÁRIO ACADÊMICO OFICIAL 2026:\n{CALENDARIO}\n\nGRADE DE DISCIPLINAS E HORÁRIOS:\n{DISCIPLINAS}\n\nAluno: {message}"
         response = gemini_client.models.generate_content(
-            model="gemini-3-flash-preview",
+            model="gemini-3.1-flash-lite", #gemini-3-flash-preview
             contents=prompt
         )
         text_response = response.text
@@ -54,6 +54,39 @@ def chat():
     except Exception as e:
         print(f"Erro: {e}")
         return jsonify({"error": str(e)}), 500
+
+@app.route('/download/calendario', methods=['GET'])
+def download_calendario():
+    try:
+        return send_file(
+            'calendario_fatec_2026.pdf',
+            as_attachment=True,
+            download_name='Calendario_Fatec_2026.pdf'
+        )
+    except FileNotFoundError:
+        return jsonify({"error": "Arquivo não encontrado"}), 404
+
+@app.route('/download/edital', methods=['GET'])
+def download_edital():
+    try:
+        return send_file(
+            'download/edital_transferencia.pdf',
+            as_attachment=True,
+            download_name='Edital_Transferencia_Fatec.pdf'
+        )
+    except FileNotFoundError:
+        return jsonify({"error": "Arquivo não encontrado"}), 404
+
+@app.route('/download/formulario', methods=['GET'])
+def download_formulario():
+    try:
+        return send_file(
+            'download/formulario_transferencia.docx',
+            as_attachment=True,
+            download_name='Formulario_Transferencia_Fatec.docx'
+        )
+    except FileNotFoundError:
+        return jsonify({"error": "Arquivo não encontrado"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
